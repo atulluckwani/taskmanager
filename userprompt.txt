@@ -1,1 +1,25 @@
+FRONTEND (React):
+- Clean, modern interface with a task input form
+- Display tasks in a list with checkboxes
+- Mark tasks as complete/incomplete
+- Delete tasks
+- Filter view: All, Active, Completed
+- Task counter showing remaining tasks
+- Responsive design for mobile and desktop
 
+BACKEND (Python/FashAPI):
+- REST API with these endpoints:
+  * GET /api/tasks - Get all tasks
+  * POST /api/tasks - Create new task
+  * PUT /api/tasks/<id> - Update task
+  * DELETE /api/tasks/<id> - Delete task
+- Store tasks in a JSON file or SQLite database
+- CORS enabled for frontend communication
+
+FEATURES:
+- Add task with title and optional description
+- Due date picker
+- Priority levels (Low, Medium, High) with color coding
+- Search/filter tasks
+- Local storage backup on frontend
+Make it look professional with a gradient background and smooth animations.
