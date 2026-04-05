@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation & Setup Guide - Task Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        header h1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb {
+            color: #999;
+            margin-bottom: 1rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        h4 {
+            color: #667eea;
+            margin-top: 1rem;
+        }
+        
+        code {
+            background: #f5f5f5;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d73a49;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .step-card {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .step-title {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tab-container {
+            margin: 1.5rem 0;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            color: #666;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            border-bottom-color: #667eea;
+            color: #667eea;
+        }
+        
+        .tab-button:hover {
+            color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+        
+        .alert-info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #1565c0;
+        }
+        
+        .alert-success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+        
+        .alert-warning {
+            background: #fff3e0;
+            border-color: #ff9800;
+            color: #e65100;
+        }
+        
+        .alert-error {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-box {
+            padding: 1rem;
+            background: #f5f5f5;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            text-align: center;
+        }
+        
+        .feature-box strong {
+            color: #667eea;
+        }
+        
+        ul, ol {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        .cmd-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        
+        .troubleshoot-item {
+            padding: 1rem;
+            background: #fff3e0;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .troubleshoot-item h5 {
+            color: #e65100;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(c => c.classList.remove('active'));
+            
+            // Remove active class from buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(b => b.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Activate first tab on page load
+        window.addEventListener('load', () => {
+            const firstButton = document.querySelector('.tab-button');
+            if (firstButton) {
+                firstButton.click();
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">📋 Task Manager</a> > 🚀 Installation & Setup
+            </div>
+            <h1>Installation & Setup Guide</h1>
+            <p>Complete step-by-step guide to install and run the Task Manager</p>
+        </header>
+        
+        <div class="content-section">
+            <h2>System Requirements</h2>
+            
+            <div class="feature-list">
+                <div class="feature-box">
+                    <strong>Python</strong><br>
+                    3.8 or higher
+                </div>
+                <div class="feature-box">
+                    <strong>Node.js</strong><br>
+                    14.0 or higher
+                </div>
+                <div class="feature-box">
+                    <strong>npm</strong><br>
+                    6.0 or higher
+                </div>
+                <div class="feature-box">
+                    <strong>Browser</strong><br>
+                    Any modern browser
+                </div>
+            </div>
+            
+            <h3>Operating System Support</h3>
+            <ul>
+                <li>✅ Windows (7 and above)</li>
+                <li>✅ macOS (10.12 and above)</li>
+                <li>✅ Linux (any standard distribution)</li>
+            </ul>
+        </div>
+        
+        <div class="content-section">
+            <h2>Quick Setup (Automated)</h2>
+            
+            <div class="alert alert-success">
+                <strong>✨ Recommended approach for beginners</strong>
+            </div>
+            
+            <h3>Step 1: Install Python and Node.js</h3>
+            
+            <div class="tab-container">
+                <div class="tabs">
+                    <button class="tab-button" onclick="switchTab('python-win')">Windows</button>
+                    <button class="tab-button" onclick="switchTab('python-mac')">macOS</button>
+                    <button class="tab-button" onclick="switchTab('python-linux')">Linux</button>
+                </div>
+                
+                <div id="python-win" class="tab-content">
+                    <h4>Windows</h4>
+                    <p><strong>Python:</strong></p>
+                    <ol>
+                        <li>Visit <a href="https://www.python.org/downloads/" target="_blank">python.org</a></li>
+                        <li>Download Python 3.12+ for Windows 64-bit</li>
+                        <li>Run installer</li>
+                        <li><strong>Important:</strong> Check "Add Python to PATH"</li>
+                        <li>Click Install</li>
+                    </ol>
+                    
+                    <p style="margin-top: 1rem;"><strong>Node.js:</strong></p>
+                    <ol>
+                        <li>Visit <a href="https://nodejs.org/" target="_blank">nodejs.org</a></li>
+                        <li>Download LTS version for Windows</li>
+                        <li>Run installer and follow prompts</li>
+                    </ol>
+                </div>
+                
+                <div id="python-mac" class="tab-content">
+                    <h4>macOS</h4>
+                    <p><strong>Using Homebrew (Recommended):</strong></p>
+                    <div class="cmd-block">
+# Install Homebrew if not already installed
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install Python and Node.js
+brew install python@3.12 node
+                    </div>
+                    
+                    <p><strong>Or download installers:</strong></p>
+                    <ul>
+                        <li>Python: <a href="https://www.python.org/downloads/" target="_blank">python.org</a></li>
+                        <li>Node.js: <a href="https://nodejs.org/" target="_blank">nodejs.org</a></li>
+                    </ul>
+                </div>
+                
+                <div id="python-linux" class="tab-content">
+                    <h4>Linux</h4>
+                    <p><strong>Ubuntu/Debian:</strong></p>
+                    <div class="cmd-block">
+sudo apt-get update
+sudo apt-get install python3.12 python3.12-venv python3-pip
+sudo apt-get install nodejs npm
+                    </div>
+                    
+                    <p style="margin-top: 1rem;"><strong>Fedora/RedHat:</strong></p>
+                    <div class="cmd-block">
+sudo dnf install python3.12 python3.12-devel
+sudo dnf install nodejs npm
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Step 2: Verify Installation</h3>
+            <p>Open a terminal and run:</p>
+            <div class="cmd-block">
+python --version
+node --version
+npm --version
+            </div>
+            
+            <p>You should see version numbers for all three.</p>
+            
+            <h3>Step 3: Run Setup Script</h3>
+            
+            <div class="tab-container">
+                <div class="tabs">
+                    <button class="tab-button" onclick="switchTab('setup-win')">Windows</button>
+                    <button class="tab-button" onclick="switchTab('setup-mac')">macOS/Linux</button>
+                </div>
+                
+                <div id="setup-win" class="tab-content">
+                    <p>Navigate to the project directory and run:</p>
+                    <div class="cmd-block">
+cd c:\Workspace\taskmanager
+.\setup.bat
+                    </div>
+                    
+                    <p style="margin-top: 1rem;">
+                        This script will automatically:
+                    </p>
+                    <ul>
+                        <li>Create Python virtual environment</li>
+                        <li>Install backend dependencies</li>
+                        <li>Install frontend dependencies</li>
+                        <li>Provide instructions for running the app</li>
+                    </ul>
+                </div>
+                
+                <div id="setup-mac" class="tab-content">
+                    <p>Navigate to the project directory and run:</p>
+                    <div class="cmd-block">
+cd /path/to/taskmanager
+bash setup.sh
+                    </div>
+                    
+                    <p style="margin-top: 1rem;">
+                        This script will automatically:
+                    </p>
+                    <ul>
+                        <li>Create Python virtual environment</li>
+                        <li>Install backend dependencies</li>
+                        <li>Install frontend dependencies</li>
+                        <li>Provide instructions for running the app</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Manual Setup</h2>
+            
+            <div class="alert alert-info">
+                <strong>ℹ️ For advanced users who prefer manual control</strong>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    Backend Setup
+                </div>
+                
+                <p>Open a terminal and navigate to the project:</p>
+                <div class="cmd-block">
+cd c:\Workspace\taskmanager\backend   # Windows
+cd /path/to/taskmanager/backend        # macOS/Linux
+                </div>
+                
+                <p style="margin-top: 1rem;">Create a virtual environment:</p>
+                <div class="cmd-block">
+python -m venv venv
+                </div>
+                
+                <p style="margin-top: 1rem;">Activate the virtual environment:</p>
+                
+                <div class="tab-container">
+                    <div class="tabs">
+                        <button class="tab-button" onclick="switchTab('venv-win')">Windows</button>
+                        <button class="tab-button" onclick="switchTab('venv-mac')">macOS/Linux</button>
+                    </div>
+                    
+                    <div id="venv-win" class="tab-content">
+                        <div class="cmd-block">venv\Scripts\activate</div>
+                    </div>
+                    
+                    <div id="venv-mac" class="tab-content">
+                        <div class="cmd-block">source venv/bin/activate</div>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 1rem;">Install Python dependencies:</p>
+                <div class="cmd-block">
+pip install -r requirements.txt
+                </div>
+                
+                <p style="margin-top: 1rem;">Start the backend server:</p>
+                <div class="cmd-block">
+python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+                </div>
+                
+                <div class="alert alert-success">
+                    <strong>✅ Backend is ready!</strong> Visit <code>http://localhost:8000</code>
+                </div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    Frontend Setup
+                </div>
+                
+                <p>Open a new terminal and navigate to the frontend directory:</p>
+                <div class="cmd-block">
+cd c:\Workspace\taskmanager\frontend   # Windows
+cd /path/to/taskmanager/frontend        # macOS/Linux
+                </div>
+                
+                <p style="margin-top: 1rem;">Install npm dependencies:</p>
+                <div class="cmd-block">
+npm install
+                </div>
+                
+                <p style="margin-top: 1rem;">Start the development server:</p>
+                <div class="cmd-block">
+npm start
+                </div>
+                
+                <div class="alert alert-success">
+                    <strong>✅ Frontend is ready!</strong> Visit <code>http://localhost:3000</code>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Verification</h2>
+            
+            <h3>Confirm Everything is Running</h3>
+            
+            <div class="alert alert-info">
+                <strong>Check these endpoints in your browser:</strong>
+            </div>
+            
+            <div class="feature-list">
+                <div class="feature-box">
+                    <strong>Frontend</strong><br>
+                    <code>http://localhost:3000</code><br>
+                    Should see the Task Manager app
+                </div>
+                <div class="feature-box">
+                    <strong>Backend</strong><br>
+                    <code>http://localhost:8000</code><br>
+                    Should show API message
+                </div>
+                <div class="feature-box">
+                    <strong>API Docs</strong><br>
+                    <code>http://localhost:8000/docs</code><br>
+                    Interactive Swagger documentation
+                </div>
+                <div class="feature-box">
+                    <strong>Health Check</strong><br>
+                    <code>http://localhost:8000/api/health</code><br>
+                    Should return {"status": "healthy"}
+                </div>
+            </div>
+            
+            <h3>Test the Application</h3>
+            <ol>
+                <li>Open <code>http://localhost:3000</code> in your browser</li>
+                <li>Try adding a task using the input form</li>
+                <li>Mark tasks as complete with the checkbox</li>
+                <li>Delete tasks using the delete button</li>
+                <li>Check the statistics display updates</li>
+            </ol>
+        </div>
+        
+        <div class="content-section">
+            <h2>Troubleshooting</h2>
+            
+            <div class="troubleshoot-item">
+                <h5>❌ "Python not found" or "npm not found"</h5>
+                <p>
+                    Python and Node.js are not in your system PATH. 
+                    Reinstall them and ensure "Add to PATH" is checked during installation. 
+                    Then restart your terminal.
+                </p>
+            </div>
+            
+            <div class="troubleshoot-item">
+                <h5>❌ Port 3000 or 8000 already in use</h5>
+                <p>
+                    Another application is using the port. You can either:
+                </p>
+                <ul>
+                    <li>Kill the existing process</li>
+                    <li>Use a different port: <code>PORT=3001 npm start</code></li>
+                </ul>
+            </div>
+            
+            <div class="troubleshoot-item">
+                <h5>❌ "Module not found" errors</h5>
+                <p>
+                    Clear node_modules and reinstall:
+                </p>
+                <div class="cmd-block">
+cd frontend
+rm -r node_modules package-lock.json
+npm install
+                </div>
+            </div>
+            
+            <div class="troubleshoot-item">
+                <h5>❌ CORS errors when loading tasks</h5>
+                <p>
+                    Ensure both backend and frontend are running:
+                </p>
+                <ul>
+                    <li>Backend should show "Application startup complete"</li>
+                    <li>Frontend should show "Compiled successfully!"</li>
+                </ul>
+            </div>
+            
+            <div class="troubleshoot-item">
+                <h5>❌ Virtual environment issues (Python)</h5>
+                <p>
+                    Delete the venv folder and recreate it:
+                </p>
+                <div class="cmd-block">
+cd backend
+rm -r venv
+python -m venv venv
+venv\Scripts\activate      # Windows or source venv/bin/activate
+pip install -r requirements.txt
+                </div>
+            </div>
+            
+            <div class="troubleshoot-item">
+                <h5>❌ Frontend shows blank/white screen</h5>
+                <p>
+                    Open browser developer console (F12) and check for errors:
+                </p>
+                <ul>
+                    <li>Check if backend is running at the correct URL</li>
+                    <li>Check .env file has correct API_URL</li>
+                    <li>Clear browser cache and reload</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Environment Variables</h2>
+            
+            <h3>Backend (.env)</h3>
+            <pre>ENVIRONMENT=development
+DATABASE_PATH=tasks.json
+DEBUG=true
+API_PORT=8000</pre>
+            
+            <h3>Frontend (.env)</h3>
+            <pre>REACT_APP_API_URL=http://localhost:8000
+REACT_APP_ENV=development</pre>
+            
+            <p style="margin-top: 1rem;">
+                These files are already configured in the project. 
+                Modify them only if you need different settings.
+            </p>
+        </div>
+        
+        <div class="content-section">
+            <h2>Next Steps</h2>
+            
+            <h3>After Installation</h3>
+            <ol>
+                <li><strong>Explore the Application</strong> - Try all features at <code>http://localhost:3000</code></li>
+                <li><strong>View API Documentation</strong> - Interactive docs at <code>http://localhost:8000/docs</code></li>
+                <li><strong>Review Codebase</strong> - Check <a href="frontend.html">Frontend</a> and <a href="backend.html">Backend</a> docs</li>
+                <li><strong>Customize</strong> - Modify components and endpoints as needed</li>
+                <li><strong>Deploy</strong> - Prepare for production deployment</li>
+            </ol>
+        </div>
+        
+        <div class="content-section">
+            <h2>Production Deployment</h2>
+            
+            <h3>Building for Production</h3>
+            
+            <p><strong>Frontend:</strong></p>
+            <div class="cmd-block">
+cd frontend
+npm run build
+            </div>
+            
+            <p style="margin-top: 1rem;">
+                This creates an optimized build in the <code>build/</code> directory 
+                ready for serving with a static file server.
+            </p>
+            
+            <p style="margin-top: 1rem;"><strong>Backend:</strong></p>
+            <div class="cmd-block">
+pip install gunicorn
+gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+            </div>
+            
+            <p style="margin-top: 1rem;">
+                Use proper environment variables for production and ensure HTTPS is enabled.
+            </p>
+        </div>
+        
+        <a href="index.html" class="btn">← Back to Main Documentation</a>
+        
+        <footer style="margin-top: 3rem;">
+            <p><strong>Installation & Setup Guide</strong> © 2024</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                Need help? Check the main documentation or review the troubleshooting section above.
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

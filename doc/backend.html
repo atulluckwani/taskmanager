@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend API Documentation - Task Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        header h1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb {
+            color: #999;
+            margin-bottom: 1rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        h4 {
+            color: #667eea;
+            margin-top: 1rem;
+        }
+        
+        code {
+            background: #f5f5f5;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d73a49;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .endpoint {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: white;
+        }
+        
+        .method.get {
+            background: #61affe;
+        }
+        
+        .method.post {
+            background: #49cc90;
+        }
+        
+        .method.put {
+            background: #fca130;
+        }
+        
+        .method.delete {
+            background: #f93e3e;
+        }
+        
+        .path {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #d73a49;
+            font-size: 1rem;
+        }
+        
+        .endpoint-description {
+            color: #666;
+            margin: 1rem 0;
+        }
+        
+        .param-section {
+            margin: 1rem 0;
+        }
+        
+        .param-section h5 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .response-example {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            overflow-x: auto;
+        }
+        
+        .model-card {
+            padding: 1.5rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .model-card h4 {
+            margin-top: 0;
+        }
+        
+        ul, ol {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+        
+        .alert-info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #1565c0;
+        }
+        
+        .alert-success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        footer {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            color: #666;
+        }
+        
+        .file-structure {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .endpoint-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">📋 Task Manager</a> > 🔧 Backend API Documentation
+            </div>
+            <h1>Backend API Documentation</h1>
+            <p>Complete REST API reference for the Task Manager</p>
+        </header>
+        
+        <div class="content-section">
+            <h2>Overview</h2>
+            <p>
+                The Task Manager backend is built with FastAPI and provides a comprehensive REST API 
+                for managing tasks. All endpoints support JSON request/response format with CORS enabled.
+            </p>
+            
+            <div class="alert alert-success">
+                <strong>✅ Backend Running At:</strong> <code>http://localhost:8000</code><br>
+                <strong>📚 Interactive Docs:</strong> <code>http://localhost:8000/docs</code>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Architecture</h2>
+            
+            <h3>Project Structure</h3>
+            <div class="file-structure">
+backend/
+├── app/
+│   ├── __init__.py             # Package initialization
+│   ├── main.py                 # FastAPI application & routes
+│   ├── models.py               # Pydantic data models
+│   └── database.py             # Database management
+├── requirements.txt            # Python dependencies
+├── .env                        # Environment variables
+├── .gitignore                  # Git configuration
+└── tasks.json                  # JSON data storage
+            </div>
+            
+            <h3>Core Components</h3>
+            
+            <h4>main.py - FastAPI Application</h4>
+            <p>
+                Contains all route definitions, error handling, and middleware configuration. 
+                The application is configured with CORS to allow frontend communication.
+            </p>
+            
+            <h4>models.py - Pydantic Models</h4>
+            <p>
+                Defines data validation schemas using Pydantic for request/response serialization.
+            </p>
+            
+            <h4>database.py - Task Database</h4>
+            <p>
+                Manages JSON file storage and CRUD operations for tasks. Each task has a unique UUID.
+            </p>
+        </div>
+        
+        <div class="content-section">
+            <h2>API Endpoints</h2>
+            
+            <!-- GET /api/tasks -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/tasks</span>
+                </div>
+                
+                <div class="endpoint-description">
+                    <strong>Description:</strong> Retrieve all tasks with optional filtering
+                </div>
+                
+                <div class="param-section">
+                    <h5>Query Parameters</h5>
+                    <table>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>completed</code></td>
+                            <td>boolean (optional)</td>
+                            <td>Filter by completion status (true/false)</td>
+                        </tr>
+                        <tr>
+                            <td><code>priority</code></td>
+                            <td>string (optional)</td>
+                            <td>Filter by priority (Low, Medium, High)</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="param-section">
+                    <h5>Request Example</h5>
+                    <pre>GET http://localhost:8000/api/tasks
+GET http://localhost:8000/api/tasks?completed=false
+GET http://localhost:8000/api/tasks?priority=High</pre>
+                </div>
+                
+                <div class="param-section">
+                    <h5>Response (200 OK)</h5>
+                    <div class="response-example">
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "title": "Complete project",
+    "description": "Finish the task manager app",
+    "priority": "High",
+    "completed": false,
+    "due_date": "2024-03-25",
+    "created_at": "2024-03-22T10:30:00",
+    "updated_at": "2024-03-22T10:30:00"
+  }
+]
+                    </div>
+                </div>
+            </div>
+            
+            <!-- POST /api/tasks -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="path">/api/tasks</span>
+                </div>
+                
+                <div class="endpoint-description">
+                    <strong>Description:</strong> Create a new task
+                </div>
+                
+                <div class="param-section">
+                    <h5>Request Body</h5>
+                    <table>
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>title</code></td>
+                            <td>string</td>
+                            <td>✓</td>
+                            <td>Task title</td>
+                        </tr>
+                        <tr>
+                            <td><code>description</code></td>
+                            <td>string</td>
+                            <td></td>
+                            <td>Task description</td>
+                        </tr>
+                        <tr>
+                            <td><code>due_date</code></td>
+                            <td>string (YYYY-MM-DD)</td>
+                            <td></td>
+                            <td>Task due date</td>
+                        </tr>
+                        <tr>
+                            <td><code>priority</code></td>
+                            <td>string</td>
+                            <td></td>
+                            <td>Low, Medium, or High (default: Medium)</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="param-section">
+                    <h5>Request Example</h5>
+                    <div class="response-example">
+POST /api/tasks HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Buy groceries",
+  "description": "Milk, eggs, bread",
+  "due_date": "2024-03-23",
+  "priority": "Medium"
+}
+                    </div>
+                </div>
+                
+                <div class="param-section">
+                    <h5>Response (201 Created)</h5>
+                    <div class="response-example">
+{
+  "id": "550e8400-e29b-41d4-a716-446655440001",
+  "title": "Buy groceries",
+  "description": "Milk, eggs, bread",
+  "priority": "Medium",
+  "completed": false,
+  "due_date": "2024-03-23",
+  "created_at": "2024-03-22T10:35:00",
+  "updated_at": "2024-03-22T10:35:00"
+}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GET /api/tasks/{id} -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/tasks/{id}</span>
+                </div>
+                
+                <div class="endpoint-description">
+                    <strong>Description:</strong> Retrieve a specific task by ID
+                </div>
+                
+                <div class="param-section">
+                    <h5>Path Parameters</h5>
+                    <table>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>string (UUID)</td>
+                            <td>Task unique identifier</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="param-section">
+                    <h5>Response (200 OK)</h5>
+                    <p>Same as task object shown in POST response</p>
+                </div>
+                
+                <div class="param-section">
+                    <h5>Response (404 Not Found)</h5>
+                    <div class="response-example">
+{
+  "detail": "Task not found"
+}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PUT /api/tasks/{id} -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method put">PUT</span>
+                    <span class="path">/api/tasks/{id}</span>
+                </div>
+                
+                <div class="endpoint-description">
+                    <strong>Description:</strong> Update an existing task
+                </div>
+                
+                <div class="param-section">
+                    <h5>Request Body (All fields optional)</h5>
+                    <table>
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>title</code></td>
+                            <td>string</td>
+                            <td>Update task title</td>
+                        </tr>
+                        <tr>
+                            <td><code>description</code></td>
+                            <td>string</td>
+                            <td>Update task description</td>
+                        </tr>
+                        <tr>
+                            <td><code>due_date</code></td>
+                            <td>string</td>
+                            <td>Update due date</td>
+                        </tr>
+                        <tr>
+                            <td><code>priority</code></td>
+                            <td>string</td>
+                            <td>Update priority</td>
+                        </tr>
+                        <tr>
+                            <td><code>completed</code></td>
+                            <td>boolean</td>
+                            <td>Update completion status</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="param-section">
+                    <h5>Request Example</h5>
+                    <div class="response-example">
+PUT /api/tasks/550e8400-e29b-41d4-a716-446655440001 HTTP/1.1
+Content-Type: application/json
+
+{
+  "priority": "High",
+  "completed": true
+}
+                    </div>
+                </div>
+                
+                <div class="param-section">
+                    <h5>Response (200 OK)</h5>
+                    <p>Updated task object</p>
+                </div>
+            </div>
+            
+            <!-- DELETE /api/tasks/{id} -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method delete">DELETE</span>
+                    <span class="path">/api/tasks/{id}</span>
+                </div>
+                
+                <div class="endpoint-description">
+                    <strong>Description:</strong> Delete a task permanently
+                </div>
+                
+                <div class="param-section">
+                    <h5>Response (200 OK)</h5>
+                    <div class="response-example">
+{
+  "message": "Task deleted successfully"
+}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- POST /api/tasks/{id}/toggle -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="path">/api/tasks/{id}/toggle</span>
+                </div>
+                
+                <div class="endpoint-description">
+                    <strong>Description:</strong> Toggle task completion status
+                </div>
+                
+                <div class="param-section">
+                    <h5>Response (200 OK)</h5>
+                    <p>Updated task object with toggled completion status</p>
+                </div>
+            </div>
+            
+            <!-- GET /api/stats -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/stats</span>
+                </div>
+                
+                <div class="endpoint-description">
+                    <strong>Description:</strong> Get task statistics
+                </div>
+                
+                <div class="param-section">
+                    <h5>Response (200 OK)</h5>
+                    <div class="response-example">
+{
+  "total": 10,
+  "completed": 3,
+  "active": 7,
+  "completion_rate": 30.0
+}
+                    </div>
+                </div>
+                
+                <div class="param-section">
+                    <h5>Response Fields</h5>
+                    <table>
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>total</code></td>
+                            <td>integer</td>
+                            <td>Total number of tasks</td>
+                        </tr>
+                        <tr>
+                            <td><code>completed</code></td>
+                            <td>integer</td>
+                            <td>Number of completed tasks</td>
+                        </tr>
+                        <tr>
+                            <td><code>active</code></td>
+                            <td>integer</td>
+                            <td>Number of active tasks</td>
+                        </tr>
+                        <tr>
+                            <td><code>completion_rate</code></td>
+                            <td>float</td>
+                            <td>Percentage of completed tasks (0-100)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- GET /api/health -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/health</span>
+                </div>
+                
+                <div class="endpoint-description">
+                    <strong>Description:</strong> Check backend health status
+                </div>
+                
+                <div class="param-section">
+                    <h5>Response (200 OK)</h5>
+                    <div class="response-example">
+{
+  "status": "healthy"
+}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Data Models</h2>
+            
+            <div class="model-card">
+                <h4>Task Model</h4>
+                <p>Complete task object returned by API</p>
+                <table>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>id</code></td>
+                        <td>string (UUID)</td>
+                        <td>Unique task identifier</td>
+                    </tr>
+                    <tr>
+                        <td><code>title</code></td>
+                        <td>string</td>
+                        <td>Task title</td>
+                    </tr>
+                    <tr>
+                        <td><code>description</code></td>
+                        <td>string | null</td>
+                        <td>Optional task description</td>
+                    </tr>
+                    <tr>
+                        <td><code>priority</code></td>
+                        <td>string (Low, Medium, High)</td>
+                        <td>Task priority level</td>
+                    </tr>
+                    <tr>
+                        <td><code>due_date</code></td>
+                        <td>string (YYYY-MM-DD) | null</td>
+                        <td>Optional due date</td>
+                    </tr>
+                    <tr>
+                        <td><code>completed</code></td>
+                        <td>boolean</td>
+                        <td>Completion status</td>
+                    </tr>
+                    <tr>
+                        <td><code>created_at</code></td>
+                        <td>string (ISO 8601)</td>
+                        <td>Task creation timestamp</td>
+                    </tr>
+                    <tr>
+                        <td><code>updated_at</code></td>
+                        <td>string (ISO 8601)</td>
+                        <td>Last update timestamp</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Authentication & Security</h2>
+            
+            <p>
+                The current version of Task Manager does not include authentication. 
+                For production use, consider implementing:
+            </p>
+            
+            <ul>
+                <li>JWT token-based authentication</li>
+                <li>User account system</li>
+                <li>Per-user task isolation</li>
+                <li>API key management</li>
+                <li>Rate limiting</li>
+                <li>HTTPS enforcement</li>
+            </ul>
+        </div>
+        
+        <div class="content-section">
+            <h2>Environment Configuration</h2>
+            
+            <h3>.env File</h3>
+            <pre>ENVIRONMENT=development
+DATABASE_PATH=tasks.json
+DEBUG=true
+API_PORT=8000</pre>
+            
+            <h3>Database</h3>
+            <p>
+                Tasks are stored in a JSON file (<code>tasks.json</code>) in the backend directory. 
+                Each task is stored with a UUID key for fast lookups.
+            </p>
+            
+            <h4>Database Structure</h4>
+            <div class="response-example">
+{
+  "tasks": {
+    "550e8400-e29b-41d4-a716-446655440000": {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "title": "Task title",
+      "description": "Description",
+      "priority": "High",
+      "completed": false,
+      "due_date": "2024-03-25",
+      "created_at": "2024-03-22T10:30:00.000000",
+      "updated_at": "2024-03-22T10:30:00.000000"
+    }
+  }
+}
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Error Handling</h2>
+            
+            <h3>HTTP Status Codes</h3>
+            <table>
+                <tr>
+                    <th>Status Code</th>
+                    <th>Meaning</th>
+                    <th>When Returned</th>
+                </tr>
+                <tr>
+                    <td>200</td>
+                    <td>OK</td>
+                    <td>Successful GET, PUT, DELETE</td>
+                </tr>
+                <tr>
+                    <td>201</td>
+                    <td>Created</td>
+                    <td>Successful POST</td>
+                </tr>
+                <tr>
+                    <td>400</td>
+                    <td>Bad Request</td>
+                    <td>Invalid request data</td>
+                </tr>
+                <tr>
+                    <td>404</td>
+                    <td>Not Found</td>
+                    <td>Task ID doesn't exist</td>
+                </tr>
+                <tr>
+                    <td>500</td>
+                    <td>Internal Server Error</td>
+                    <td>Server error</td>
+                </tr>
+            </table>
+            
+            <h3>Error Response Format</h3>
+            <div class="response-example">
+{
+  "detail": "Error message describing what went wrong"
+}
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Running the Backend</h2>
+            
+            <h3>Prerequisites</h3>
+            <ul>
+                <li>Python 3.8+</li>
+                <li>pip (Python package manager)</li>
+            </ul>
+            
+            <h3>Installation & Running</h3>
+            
+            <pre>cd backend
+python -m venv venv                    # Create virtual environment
+venv\Scripts\activate                  # Windows
+source venv/bin/activate               # macOS/Linux
+
+pip install -r requirements.txt        # Install dependencies
+python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000</pre>
+            
+            <h3>Production Deployment</h3>
+            
+            <p>For production, use Gunicorn or similar ASGI server:</p>
+            
+            <pre>pip install gunicorn
+gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000</pre>
+        </div>
+        
+        <div class="content-section">
+            <h2>Testing the API</h2>
+            
+            <h3>Using cURL</h3>
+            <pre># Get all tasks
+curl http://localhost:8000/api/tasks
+
+# Create a task
+curl -X POST http://localhost:8000/api/tasks \
+  -H "Content-Type: application/json" \
+  -d '{"title":"My Task","priority":"High"}'
+
+# Get task stats
+curl http://localhost:8000/api/stats</pre>
+            
+            <h3>Interactive Documentation</h3>
+            <p>
+                When running locally, visit <code>http://localhost:8000/docs</code> 
+                for interactive Swagger UI documentation where you can test all endpoints.
+            </p>
+        </div>
+        
+        <a href="index.html" class="btn">← Back to Main Documentation</a>
+        
+        <footer style="margin-top: 3rem;">
+            <p><strong>Backend API Documentation</strong> © 2024</p>
+        </footer>
+    </div>
+</body>
+</html>

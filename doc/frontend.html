@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Documentation - Task Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        header h1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb {
+            color: #999;
+            margin-bottom: 1rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        h4 {
+            color: #667eea;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        code {
+            background: #f5f5f5;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d73a49;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .component-card {
+            padding: 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .component-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        .component-card h4 {
+            margin-top: 0;
+        }
+        
+        .file-structure {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-item {
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .feature-item h5 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        ul, ol {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+        
+        .alert-info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #1565c0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        footer {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">📋 Task Manager</a> > ⚛️ Frontend Documentation
+            </div>
+            <h1>Frontend Documentation</h1>
+            <p>Complete guide to the React frontend application</p>
+        </header>
+        
+        <div class="content-section">
+            <h2>Overview</h2>
+            <p>
+                The frontend is a modern React application that provides a user-friendly interface for managing tasks. 
+                It features a responsive design, smooth animations, and real-time updates.
+            </p>
+            
+            <div class="alert alert-info">
+                <strong>ℹ️ Frontend Running At:</strong> <code>http://localhost:3000</code>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Project Structure</h2>
+            
+            <div class="file-structure">
+frontend/
+├── public/
+│   └── index.html              # HTML entry point
+├── src/
+│   ├── components/             # React components
+│   │   ├── TaskForm.js         # Task creation form
+│   │   ├── TaskForm.css        # Form styling
+│   │   ├── TaskItem.js         # Individual task display
+│   │   ├── TaskItem.css        # Task item styling
+│   │   ├── TaskList.js         # Task list container
+│   │   └── TaskList.css        # List styling
+│   ├── services/
+│   │   └── api.js              # API communication layer
+│   ├── App.js                  # Main app component
+│   ├── App.css                 # App styling
+│   ├── index.js                # React DOM entry point
+│   ├── index.css               # Global styles
+│   ├── package.json            # Dependencies configuration
+│   └── .env                    # Environment variables
+└── .gitignore                  # Git configuration
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Components</h2>
+            
+            <div class="component-card">
+                <h4>📝 TaskForm Component</h4>
+                <p><strong>File:</strong> <code>src/components/TaskForm.js</code></p>
+                <p><strong>Purpose:</strong> Handles task creation with input for title, description, due date, and priority.</p>
+                
+                <h5>Features:</h5>
+                <ul>
+                    <li>Text input for task title (required)</li>
+                    <li>Textarea for task description (optional)</li>
+                    <li>Date picker for setting due dates</li>
+                    <li>Dropdown selector for priority levels (Low, Medium, High)</li>
+                    <li>Form validation and submission handling</li>
+                    <li>Loading state during form submission</li>
+                </ul>
+                
+                <h5>Props:</h5>
+                <ul>
+                    <li><code>onAddTask(taskData)</code> - Callback function when form is submitted</li>
+                    <li><code>loading</code> - Boolean to disable form during submission</li>
+                </ul>
+                
+                <h5>Styling:</h5>
+                <p>Modern form design with glass-morphism effect, smooth transitions, and responsive layout.</p>
+            </div>
+            
+            <div class="component-card">
+                <h4>✅ TaskItem Component</h4>
+                <p><strong>File:</strong> <code>src/components/TaskItem.js</code></p>
+                <p><strong>Purpose:</strong> Displays individual task with completion checkbox, edit, and delete functionality.</p>
+                
+                <h5>Features:</h5>
+                <ul>
+                    <li>Checkbox for marking tasks as complete/incomplete</li>
+                    <li>Display task title, description, priority, and due date</li>
+                    <li>Color-coded priority badges (Low=Green, Medium=Orange, High=Red)</li>
+                    <li>Visual indicators for overdue tasks</li>
+                    <li>Task timestamps (created and updated)</li>
+                    <li>Edit mode for updating task details</li>
+                    <li>Delete button with confirmation</li>
+                    <li>Completed state styling with strikethrough</li>
+                </ul>
+                
+                <h5>Props:</h5>
+                <ul>
+                    <li><code>task</code> - Task object to display</li>
+                    <li><code>onToggle(taskId)</code> - Callback for completion toggle</li>
+                    <li><code>onDelete(taskId)</code> - Callback for task deletion</li>
+                    <li><code>onUpdate(taskId, updates)</code> - Callback for task updates</li>
+                </ul>
+                
+                <h5>Styling:</h5>
+                <p>Card-based layout with hover effects, smooth animations, and responsive design.</p>
+            </div>
+            
+            <div class="component-card">
+                <h4>📋 TaskList Component</h4>
+                <p><strong>File:</strong> <code>src/components/TaskList.js</code></p>
+                <p><strong>Purpose:</strong> Container component for displaying filtered list of tasks.</p>
+                
+                <h5>Features:</h5>
+                <ul>
+                    <li>Displays array of TaskItem components</li>
+                    <li>Empty state message when no tasks match filter</li>
+                    <li>Smooth animations for task list</li>
+                    <li>Context-aware empty messages for different filters</li>
+                </ul>
+                
+                <h5>Props:</h5>
+                <ul>
+                    <li><code>tasks</code> - Array of task objects to display</li>
+                    <li><code>onToggle(taskId)</code> - Callback for completion toggle</li>
+                    <li><code>onDelete(taskId)</code> - Callback for deletion</li>
+                    <li><code>onUpdate(taskId, updates)</code> - Callback for updates</li>
+                    <li><code>filter</code> - Current filter type (all, active, completed)</li>
+                    <li><code>emptyMessage</code> - Message to display when list is empty</li>
+                </ul>
+                
+                <h5>Styling:</h5>
+                <p>Flex layout with fade-in animations and bounce effects.</p>
+            </div>
+            
+            <div class="component-card">
+                <h4>🎨 App Component</h4>
+                <p><strong>File:</strong> <code>src/App.js</code></p>
+                <p><strong>Purpose:</strong> Main application component managing state and API communication.</p>
+                
+                <h5>Features:</h5>
+                <ul>
+                    <li>State management for tasks and filter selection</li>
+                    <li>API communication with backend</li>
+                    <li>Error handling and display</li>
+                    <li>Task statistics display</li>
+                    <li>Filter tabs for All, Active, and Completed tasks</li>
+                    <li>Header with task counters</li>
+                    <li>Local storage backup functionality</li>
+                    <li>Gradient background with animated blobs</li>
+                </ul>
+                
+                <h5>State Variables:</h5>
+                <ul>
+                    <li><code>tasks</code> - Array of all tasks</li>
+                    <li><code>filter</code> - Current filter (all, active, completed)</li>
+                    <li><code>loading</code> - Boolean for loading state</li>
+                    <li><code>error</code> - Error message if API call fails</li>
+                    <li><code>stats</code> - Task statistics object</li>
+                </ul>
+                
+                <h5>Handlers:</h5>
+                <ul>
+                    <li><code>handleAddTask(taskData)</code> - Create new task</li>
+                    <li><code>handleToggleTask(taskId)</code> - Toggle completion</li>
+                    <li><code>handleDeleteTask(taskId)</code> - Delete task with confirmation</li>
+                    <li><code>handleUpdateTask(taskId, updates)</code> - Update task details</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>API Service Layer</h2>
+            
+            <p><strong>File:</strong> <code>src/services/api.js</code></p>
+            <p>
+                The API service provides a centralized interface for all backend communication using Axios.
+            </p>
+            
+            <h3>Available Methods</h3>
+            
+            <table>
+                <tr>
+                    <th>Method</th>
+                    <th>Function</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><code>getAllTasks()</code></td>
+                    <td>GET /api/tasks</td>
+                    <td>Fetch all tasks from server</td>
+                </tr>
+                <tr>
+                    <td><code>getFilteredTasks(completed, priority)</code></td>
+                    <td>GET /api/tasks?filters</td>
+                    <td>Fetch tasks with filters applied</td>
+                </tr>
+                <tr>
+                    <td><code>getTask(id)</code></td>
+                    <td>GET /api/tasks/{id}</td>
+                    <td>Fetch a single task by ID</td>
+                </tr>
+                <tr>
+                    <td><code>createTask(taskData)</code></td>
+                    <td>POST /api/tasks</td>
+                    <td>Create a new task</td>
+                </tr>
+                <tr>
+                    <td><code>updateTask(id, taskData)</code></td>
+                    <td>PUT /api/tasks/{id}</td>
+                    <td>Update an existing task</td>
+                </tr>
+                <tr>
+                    <td><code>deleteTask(id)</code></td>
+                    <td>DELETE /api/tasks/{id}</td>
+                    <td>Delete a task</td>
+                </tr>
+                <tr>
+                    <td><code>toggleTask(id)</code></td>
+                    <td>POST /api/tasks/{id}/toggle</td>
+                    <td>Toggle task completion status</td>
+                </tr>
+                <tr>
+                    <td><code>getStats()</code></td>
+                    <td>GET /api/stats</td>
+                    <td>Fetch task statistics</td>
+                </tr>
+                <tr>
+                    <td><code>healthCheck()</code></td>
+                    <td>GET /api/health</td>
+                    <td>Check backend health status</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="content-section">
+            <h2>Features</h2>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h5>✨ Modern UI Design</h5>
+                    <p>Gradient backgrounds, smooth animations, and glass-morphism effects</p>
+                </div>
+                <div class="feature-item">
+                    <h5>📱 Responsive Layout</h5>
+                    <p>Optimized for mobile, tablet, and desktop devices</p>
+                </div>
+                <div class="feature-item">
+                    <h5>🔄 Real-time Updates</h5>
+                    <p>Tasks update instantly when modified</p>
+                </div>
+                <div class="feature-item">
+                    <h5>💾 Local Storage</h5>
+                    <p>Automatic backup of tasks in browser storage</p>
+                </div>
+                <div class="feature-item">
+                    <h5>🎨 Priority Colors</h5>
+                    <p>Visual indicators for task priority levels</p>
+                </div>
+                <div class="feature-item">
+                    <h5>📊 Live Statistics</h5>
+                    <p>Real-time task counts and completion rates</p>
+                </div>
+                <div class="feature-item">
+                    <h5>🔍 Advanced Filtering</h5>
+                    <p>Filter by status, priority, and completion</p>
+                </div>
+                <div class="feature-item">
+                    <h5>✏️ In-place Editing</h5>
+                    <p>Edit tasks without leaving the list view</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Styling & Design</h2>
+            
+            <h3>Color Scheme</h3>
+            <table>
+                <tr>
+                    <th>Color</th>
+                    <th>Hex Code</th>
+                    <th>Usage</th>
+                </tr>
+                <tr>
+                    <td>Primary Gradient</td>
+                    <td>#667eea → #764ba2</td>
+                    <td>Buttons, headers, accents</td>
+                </tr>
+                <tr>
+                    <td>High Priority</td>
+                    <td>#ff6b6b (Red)</td>
+                    <td>High priority badge</td>
+                </tr>
+                <tr>
+                    <td>Medium Priority</td>
+                    <td>#ffa500 (Orange)</td>
+                    <td>Medium priority badge</td>
+                </tr>
+                <tr>
+                    <td>Low Priority</td>
+                    <td>#4caf50 (Green)</td>
+                    <td>Low priority badge</td>
+                </tr>
+                <tr>
+                    <td>Text</td>
+                    <td>#333333</td>
+                    <td>Primary text</td>
+                </tr>
+                <tr>
+                    <td>Background</td>
+                    <td>#ffffff</td>
+                    <td>Cards and sections</td>
+                </tr>
+            </table>
+            
+            <h3>Typography</h3>
+            <ul>
+                <li><strong>Font Family:</strong> System fonts (-apple-system, BlinkMacSystemFont, Segoe UI, Roboto)</li>
+                <li><strong>Heading Sizes:</strong> h1 (2.5rem), h2 (2rem), h3 (1.5rem), h4 (1.1rem)</li>
+                <li><strong>Body Text:</strong> 1rem (16px)</li>
+                <li><strong>Line Height:</strong> 1.6</li>
+            </ul>
+        </div>
+        
+        <div class="content-section">
+            <h2>Environment Configuration</h2>
+            
+            <p><strong>File:</strong> <code>.env</code></p>
+            
+            <pre>REACT_APP_API_URL=http://localhost:8000
+REACT_APP_ENV=development</pre>
+            
+            <p><strong>Variables:</strong></p>
+            <ul>
+                <li><code>REACT_APP_API_URL</code> - Backend API base URL</li>
+                <li><code>REACT_APP_ENV</code> - Environment (development, production)</li>
+            </ul>
+        </div>
+        
+        <div class="content-section">
+            <h2>Running the Frontend</h2>
+            
+            <h3>Prerequisites</h3>
+            <ul>
+                <li>Node.js 14.0+</li>
+                <li>npm 6.0+</li>
+            </ul>
+            
+            <h3>Installation & Running</h3>
+            
+            <pre>cd frontend
+npm install                    # Install dependencies
+npm start                      # Start development server
+npm run build                  # Build for production
+npm test                       # Run tests</pre>
+            
+            <h3>Development Server</h3>
+            <p>
+                The development server runs on <code>http://localhost:3000</code> with hot module reloading. 
+                Changes to component files are reflected immediately in the browser.
+            </p>
+        </div>
+        
+        <div class="content-section">
+            <h2>Troubleshooting</h2>
+            
+            <h3>Common Issues</h3>
+            
+            <h4>Port 3000 Already in Use</h4>
+            <p>Either kill the existing process or set a different port:</p>
+            <pre>set PORT=3001 && npm start    # Windows
+PORT=3001 npm start             # macOS/Linux</pre>
+            
+            <h4>Module Not Found Errors</h4>
+            <p>Clear node_modules and reinstall:</p>
+            <pre>rm -r node_modules package-lock.json
+npm install</pre>
+            
+            <h4>API Connection Issues</h4>
+            <p>Ensure the backend is running on port 8000 and check the <code>.env</code> file has correct API URL.</p>
+            
+            <h4>CORS Errors</h4>
+            <p>Backend CORS is already configured. If issues persist, check that both servers are running.</p>
+        </div>
+        
+        <div class="content-section">
+            <h2>Performance Optimization</h2>
+            
+            <ul>
+                <li><strong>Code Splitting:</strong> React automatically handles code splitting with react-scripts</li>
+                <li><strong>Lazy Loading:</strong> Images and heavy components can be lazy-loaded</li>
+                <li><strong>State Management:</strong> Efficient React hooks usage for state management</li>
+                <li><strong>API Caching:</strong> Local storage backup prevents unnecessary API calls</li>
+                <li><strong>CSS Optimization:</strong> Scoped component CSS with no global conflicts</li>
+            </ul>
+        </div>
+        
+        <a href="index.html" class="btn">← Back to Main Documentation</a>
+        
+        <footer style="margin-top: 3rem;">
+            <p><strong>Frontend Documentation</strong> © 2024</p>
+        </footer>
+    </div>
+</body>
+</html>

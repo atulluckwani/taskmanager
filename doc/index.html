@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager - Complete Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        header h1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        nav a {
+            display: block;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+        
+        nav a:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            background: #f8f9ff;
+        }
+        
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-card {
+            padding: 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        .feature-card h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .tech-item {
+            padding: 1rem;
+            background: #f5f5f5;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .tech-item strong {
+            color: #667eea;
+        }
+        
+        code {
+            background: #f5f5f5;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d73a49;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #4caf50;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .endpoint-list {
+            margin: 1.5rem 0;
+        }
+        
+        .endpoint {
+            padding: 1rem;
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+        
+        .endpoint-method {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #667eea;
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+        
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            color: #d73a49;
+            font-weight: 600;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+        
+        footer {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            color: #666;
+            margin-top: 2rem;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+        
+        .alert-info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #1565c0;
+        }
+        
+        .alert-success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+        
+        .alert-warning {
+            background: #fff3e0;
+            border-color: #ff9800;
+            color: #e65100;
+        }
+        
+        ul, ol {
+            margin-left: 2rem;
+            margin-top: 1rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin: 1.5rem 0;
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+        }
+        
+        .toc ul {
+            list-style: none;
+            margin-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            nav {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 Task Manager</h1>
+            <p>Full-Stack Task Management Web Application Documentation</p>
+            <p style="font-size: 0.9rem; margin-top: 1rem; color: #999;">
+                Built with React, FastAPI, and modern web technologies
+            </p>
+        </header>
+        
+        <nav>
+            <a href="#overview">📌 Overview</a>
+            <a href="frontend.html">⚛️ Frontend Docs</a>
+            <a href="backend.html">🔧 Backend API</a>
+            <a href="installation.html">🚀 Installation</a>
+        </nav>
+        
+        <div class="content-section" id="overview">
+            <h2>Project Overview</h2>
+            
+            <div class="alert alert-success">
+                <strong>✅ Status:</strong> Fully functional and ready to use
+            </div>
+            
+            <p>
+                Task Manager is a modern, responsive web application for managing tasks efficiently. 
+                It features a clean user interface, real-time updates, priority management, and due date tracking.
+            </p>
+            
+            <h3>Quick Links</h3>
+            <div class="button-group">
+                <a href="http://localhost:3000" class="btn btn-primary">🌐 Open Application</a>
+                <a href="http://localhost:8000/docs" class="btn btn-primary">📚 API Documentation</a>
+                <a href="installation.html" class="btn btn-secondary">📖 Installation Guide</a>
+            </div>
+            
+            <h3>Key Features</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>✨ Modern UI</h4>
+                    <p>Beautiful, responsive interface with gradient backgrounds and smooth animations</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📝 Task Management</h4>
+                    <p>Create, edit, update, and delete tasks with full CRUD operations</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🏷️ Priority Levels</h4>
+                    <p>Color-coded priority system (Low, Medium, High) for task organization</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📅 Due Dates</h4>
+                    <p>Set due dates for tasks and receive visual indicators for overdue items</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔍 Advanced Filtering</h4>
+                    <p>Filter tasks by status (All, Active, Completed) with real-time counts</p>
+                </div>
+                <div class="feature-card">
+                    <h4>💾 Data Persistence</h4>
+                    <p>JSON-based storage with automatic local storage backup on frontend</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📊 Statistics</h4>
+                    <p>Real-time task statistics showing total, active, and completed counts</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🎨 Responsive Design</h4>
+                    <p>Works seamlessly on mobile, tablet, and desktop devices</p>
+                </div>
+            </div>
+            
+            <h3>Technology Stack</h3>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <strong>Frontend:</strong><br>
+                    React 18.2.0<br>
+                    Axios<br>
+                    CSS3 with animations
+                </div>
+                <div class="tech-item">
+                    <strong>Backend:</strong><br>
+                    FastAPI<br>
+                    Python 3.12<br>
+                    Pydantic
+                </div>
+                <div class="tech-item">
+                    <strong>Database:</strong><br>
+                    JSON File Storage<br>
+                    Automatic Backups<br>
+                    UUID-based IDs
+                </div>
+                <div class="tech-item">
+                    <strong>Deployment:</strong><br>
+                    Uvicorn (Backend)<br>
+                    React Scripts<br>
+                    CORS Enabled
+                </div>
+            </div>
+            
+            <h3>Project Structure</h3>
+            <pre>taskmanager/
+├── backend/                    # Python FastAPI server
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── main.py             # FastAPI application & routes
+│   │   ├── models.py           # Pydantic data models
+│   │   └── database.py         # Task database management
+│   ├── requirements.txt        # Python dependencies
+│   ├── .env                    # Environment variables
+│   └── tasks.json              # Data storage (created on first run)
+│
+├── frontend/                   # React application
+│   ├── public/
+│   │   └── index.html
+│   ├── src/
+│   │   ├── components/         # React components
+│   │   │   ├── TaskForm.js
+│   │   │   ├── TaskItem.js
+│   │   │   └── TaskList.js
+│   │   ├── services/
+│   │   │   └── api.js          # API communication layer
+│   │   ├── App.js              # Main app component
+│   │   ├── index.js            # Entry point
+│   │   └── CSS files
+│   ├── package.json
+│   └── .env
+│
+├── doc/                        # Documentation
+│   ├── index.html              # Main documentation
+│   ├── frontend.html           # Frontend guide
+│   ├── backend.html            # API documentation
+│   └── installation.html       # Setup instructions
+│
+├── .vscode/
+│   ├── tasks.json              # VS Code tasks
+│   └── launch.json             # Debug configuration
+│
+├── README.md                   # Project README
+├── setup.bat / setup.sh        # Automated setup scripts
+└── .gitignore                  # Git configuration</pre>
+            
+            <h3>System Requirements</h3>
+            <table>
+                <tr>
+                    <th>Requirement</th>
+                    <th>Version</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td>Python</td>
+                    <td>3.8+</td>
+                    <td><span class="status-badge">✓ Required</span></td>
+                </tr>
+                <tr>
+                    <td>Node.js</td>
+                    <td>14.0+</td>
+                    <td><span class="status-badge">✓ Required</span></td>
+                </tr>
+                <tr>
+                    <td>npm</td>
+                    <td>6.0+</td>
+                    <td><span class="status-badge">✓ Required</span></td>
+                </tr>
+                <tr>
+                    <td>Modern Browser</td>
+                    <td>Latest</td>
+                    <td><span class="status-badge">✓ Required</span></td>
+                </tr>
+            </table>
+            
+            <h3>Running the Application</h3>
+            
+            <p><strong>Automatic Setup (Recommended):</strong></p>
+            <pre>cd c:\Workspace\taskmanager
+.\setup.bat         # Windows
+bash setup.sh       # macOS/Linux</pre>
+            
+            <p><strong>Manual Setup:</strong></p>
+            
+            <p><em>Terminal 1 - Backend:</em></p>
+            <pre>cd backend
+python -m venv venv
+venv\Scripts\activate    # Windows
+source venv/bin/activate # macOS/Linux
+pip install -r requirements.txt
+python -m uvicorn app.main:app --reload</pre>
+            
+            <p><em>Terminal 2 - Frontend:</em></p>
+            <pre>cd frontend
+npm install
+npm start</pre>
+            
+            <p><strong>Access Points:</strong></p>
+            <ul>
+                <li>Frontend: <code>http://localhost:3000</code></li>
+                <li>Backend API: <code>http://localhost:8000</code></li>
+                <li>API Documentation: <code>http://localhost:8000/docs</code></li>
+            </ul>
+            
+            <h3>API Overview</h3>
+            <p>
+                The backend provides a comprehensive REST API for task management. 
+                All endpoints support JSON request/response format with CORS enabled.
+            </p>
+            
+            <div class="endpoint-list">
+                <div class="endpoint">
+                    <span class="endpoint-method">GET</span>
+                    <span class="endpoint-path">/api/tasks</span>
+                    <p>Retrieve all tasks with optional filtering by completion status or priority</p>
+                </div>
+                <div class="endpoint">
+                    <span class="endpoint-method">POST</span>
+                    <span class="endpoint-path">/api/tasks</span>
+                    <p>Create a new task with title, description, priority, and due date</p>
+                </div>
+                <div class="endpoint">
+                    <span class="endpoint-method">PUT</span>
+                    <span class="endpoint-path">/api/tasks/{id}</span>
+                    <p>Update an existing task with new information</p>
+                </div>
+                <div class="endpoint">
+                    <span class="endpoint-method">DELETE</span>
+                    <span class="endpoint-path">/api/tasks/{id}</span>
+                    <p>Delete a task permanently</p>
+                </div>
+                <div class="endpoint">
+                    <span class="endpoint-method">POST</span>
+                    <span class="endpoint-path">/api/tasks/{id}/toggle</span>
+                    <p>Toggle task completion status</p>
+                </div>
+                <div class="endpoint">
+                    <span class="endpoint-method">GET</span>
+                    <span class="endpoint-path">/api/stats</span>
+                    <p>Get task statistics (total, completed, active, completion rate)</p>
+                </div>
+            </div>
+            
+            <p>For detailed API documentation, visit the <a href="backend.html">Backend API Documentation</a> page.</p>
+            
+            <h3>Support & Documentation</h3>
+            <ul>
+                <li><a href="frontend.html">Frontend Documentation</a> - Components, features, and usage</li>
+                <li><a href="backend.html">Backend API Documentation</a> - Endpoints and data models</li>
+                <li><a href="installation.html">Installation & Setup Guide</a> - Step-by-step setup instructions</li>
+                <li><a href="http://localhost:8000/docs">Interactive API Docs</a> - Live API documentation (when running)</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p><strong>Task Manager</strong> © 2024 | Full-Stack Task Management Application</p>
+            <p style="font-size: 0.9rem; margin-top: 1rem;">
+                Documentation generated for Task Manager v1.0.0<br>
+                Last updated: March 2024
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
